@@ -32,3 +32,11 @@ print(df1.shape)
 df1 = df1.drop_duplicates(subset = ['SexCode'], keep = 'last')
 print(df1.shape)
 print(df1.head(5))
+
+#Создание
+dataframe = pd.DataFrame()
+dataframe['A'] = [23,'mama',[1,2]]
+dataframe['B'] = [-1,0,np.nan]
+new_elem = pd.Series([1,'sem'], index = ['A','B'])
+dataframe.append(new_elem, ignore_index=True)
+print(dataframe.head(3))
