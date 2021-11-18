@@ -1,0 +1,13 @@
+Задание:
+
+Создать фрейм данных со столбцами [Название урока, Время начала, Время окончания, ФИО учителя], для сегодняшнего дня
+
+Зарегистрироваться на сайте https://www.kaggle.com/
+
+https://www.kaggle.com/jaytilala/forbes-worlds-billionaires-in-2018 найти английских миллионеров моложе 50 лет
+
+В https://www.kaggle.com/arjunprasadsarkhel/2021-olympics-in-tokyo/version/7?select=Medals.xlsx заменить название ROC на Russian Federation
+
+В https://www.kaggle.com/arjunprasadsarkhel/2021-olympics-in-tokyo/version/7?select=Medals.xlsx заменить все названия столбцов русскими словами (перевести)
+
+По датасету https://www.kaggle.com/arjunprasadsarkhel/2021-olympics-in-tokyo/version/7 определить топ 3 стран по сумме медалей, которые не попали в 10 лучших
