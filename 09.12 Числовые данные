@@ -1,0 +1,84 @@
+import  numpy as np
+import pandas as pd
+from sklearn import  preprocessing
+feature1 = np.array([[500], [-15.5], [324], [234.0],[-1000.0]])
+minmax_scaler = preprocessing.MinMaxScaler(feature_range= (-1,1))
+scaled_feature1 = minmax_scaler.fit_transform(feature1)
+print(scaled_feature1)
+feature2 = np.array([[-1000.1], [-200.5], [500.6], [600.7],[9000.9]])
+std_scaler = preprocessing.StandardScaler()
+scaled_feature2 = std_scaler.fit_transform(feature2)
+print(scaled_feature2)
+print(scaled_feature2.mean(), scaled_feature2.std())
+
+feature3 = np.array( [
+    [0.5,0.5],
+    [1.1,3.4],
+    [1.5,20.2],
+    [1.63,34.4],
+    [10.9,3.3]
+])
+normalizer = preprocessing.Normalizer(norm="max") # l2, max
+normalized_feature3 = normalizer.fit_transform(feature3)
+print(normalized_feature3)
+
+feature4 = np.array(
+    [
+        [2,3],
+        [4,5],
+        [6,7]
+    ]
+)
+poly_interaction = preprocessing.PolynomialFeatures(degree= 3 , include_bias= False)
+#poly_interaction = preprocessing.PolynomialFeatures(degree= 4 , include_bias= False ,interaction_only= True )
+poly_feature4 = poly_interaction.fit_transform(feature4)
+print(poly_feature4)
+
+feature5 = np.array(
+    [
+        [2,3],
+        [4,5],
+        [6,7]
+    ]
+)
+
+def myF (x):
+    return  x**2-1
+my_transformer = preprocessing.FunctionTransformer(myF)
+transformed_features5 = my_transformer.fit_transform(feature5)
+print(transformed_features5)
+
+from sklearn.covariance import  EllipticEnvelope
+from sklearn.datasets import  make_blobs
+
+feature6, _ = make_blobs(n_samples= 10,
+                         n_features=2,
+                         centers=1,
+                         random_state=1)
+print(feature6)
+feature6[5][0] = 10000
+feature6[5][1] = -10000
+detecor = EllipticEnvelope(contamination=0.1)
+detecor.fit(feature6)
+predictions = detecor.predict(feature6)
+print(predictions)
+
+
+houses = pd.DataFrame()
+houses["Цена"] = [534343,343436,111112,959595,4000000]
+houses["Ванные"] = [2.5,2,1,3,116]
+houses["Площадь"] = [1500,2500,1000,3000,48000]
+
+clear_houses = houses[houses["Ванные"]<20]
+print(clear_houses)
+
+houses_blowout = houses.copy()
+houses_blowout["Выброс"] = np.where(houses["Ванные"]<20, 0 , 1)
+print(houses_blowout)
+
+houses_blowout_log = houses_blowout.copy()
+houses_blowout_log["Логарифм ванны"] = [ np.log(x) for x in houses_blowout["Ванные"] ]
+print(houses_blowout_log)
+
+
+
