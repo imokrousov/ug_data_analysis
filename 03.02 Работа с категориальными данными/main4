@@ -1,0 +1,90 @@
+import numpy as np
+import pandas as pd
+from sklearn.preprocessing import LabelBinarizer
+from  sklearn.feature_extraction import DictVectorizer
+
+feature1 = np.array( [
+    ["Texas"],
+    ["California"],
+    ["Texas"],
+    ["Delaware"],
+    ["Texas"]
+])
+
+F = LabelBinarizer()
+feature2 = F.fit_transform (feature1)
+print(feature2)
+print(F.classes_)
+print(F.inverse_transform (feature2))
+
+
+df = pd.DataFrame ( {"оценка" :  ["низкая", "низкая",
+                                  "средняя", "средняя", "высокая"]})
+print(df)
+dict_mapper = {"низкая": 1 , "средняя": 2, "высокая":3}
+print(df["оценка"].replace(dict_mapper))
+
+
+data_dict = [
+    {"A":2, "B":4},
+    {"A":4, "B" :3},
+    {"A":1, "C" :2},
+    {"A":2, "C":2}
+]
+
+dv = DictVectorizer(sparse = False)
+feature3 = dv.fit_transform(data_dict)
+feature3_names = dv.get_feature_names_out()
+df2 = pd.DataFrame(feature3, columns = feature3_names)
+print(df2)
+
+from sklearn.neighbors import KNeighborsClassifier
+X = np.array (
+    [[0, 2.1, 1.4],
+     [1, 1.18, 1.33],
+     [0,1.22,1.27],
+     [1,-0.21,-1.19]
+    ])
+X_with_nan = np.array (
+    [[np.nan, 0.87, 1.31],
+     [np.nan, -0.67, -0.22],
+    ])
+clf = KNeighborsClassifier(3, weights = "distance")
+trained_model = clf.fit(X[ :, 1: ], X[:,0])
+imputed_val = trained_model.predict (X_with_nan[:, 1:])
+print(imputed_val)
+X_with_nan_imputed = np.hstack ((imputed_val.reshape(-1,1),X_with_nan[:, 1:]))
+print(X_with_nan_imputed)
+X_sum = np.vstack ((X,X_with_nan_imputed))
+print(X_sum)
+
+from sklearn.datasets import load_iris
+
+iris = load_iris()
+print(iris)
+feature4 = iris.data
+target4 = iris.target
+feature4 = feature4[40:,:]
+target4 = target4[40:]
+target4 = np.where ((target4 == 0), 0 , 1)
+print(target4)
+
+from sklearn.ensemble import RandomForestClassifier
+
+wheights = {0 : 0.9, 1: 0.1}
+RandomForestClassifier(class_weight = wheights )
+
+i_cl_0 =np.where(target4 == 0)[0]
+print(i_cl_0)
+i_cl_1 =np.where(target4 == 1)[0]
+print(i_cl_1)
+
+i_cl_down1 = np.random.choice(i_cl_1, len(i_cl_0), replace= False)
+print(i_cl_down1)
+i_cl_up0 =  np.random.choice(i_cl_0, len(i_cl_1), replace= True)
+print(i_cl_up0)
+
+
+
+
+
